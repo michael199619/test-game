@@ -1,7 +1,8 @@
 import { Action, AddBalanceForUserDto, AddBalanceForUserResponse, IUserController, Usecase } from "@game/common";
-import { BadRequestException, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { UsersRepository } from "../../db/users/users.repository";
 
+@Injectable()
 export class AddBalanceForUserUsecase extends Usecase<IUserController['addBalanceForUser']> {
     constructor(
         private readonly usersRepository: UsersRepository
@@ -19,7 +20,7 @@ export class AddBalanceForUserUsecase extends Usecase<IUserController['addBalanc
 
             const balance = user.historyBalance.reduce((prev, next) => {
                 return next.action === Action.EXPENSE ? prev - next.value : prev + next.value
-            }, dto.action === Action.EXPENSE ? -dto.value : dto.value);
+            }, dto.action === Action.EXPENSE ? -dto.val : dto.val);
 
             if (dto.action === Action.EXPENSE && balance < 0) {
                 throw new BadRequestException('balance < value');

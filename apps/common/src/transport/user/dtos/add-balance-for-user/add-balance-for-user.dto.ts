@@ -30,7 +30,7 @@ export class AddBalanceForUserDto {
         example: 300
     })
     @IsNumber()
-    value: number;
+    val: number;
 
     @ApiProperty({
         description: 'транзакция'

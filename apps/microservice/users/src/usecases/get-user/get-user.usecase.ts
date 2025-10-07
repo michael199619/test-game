@@ -1,7 +1,8 @@
 import { GetUserDto, GetUserResponse, IUserController, Usecase } from "@game/common";
-import { NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { UsersRepository } from "../../db/users/users.repository";
 
+@Injectable()
 export class GetUserUsecase extends Usecase<IUserController['getUser']> {
     constructor(
         private readonly usersRepository: UsersRepository

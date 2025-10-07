@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Transform } from "class-transformer";
 import { IsInt } from "class-validator";
 
 export type IPaginationDto<T> = T & {
@@ -13,23 +14,33 @@ export type IPaginationResponse<data> = {
 export class PaginationDto implements IPaginationDto<object> {
     @ApiProperty({
         description: 'Лимит',
-        example: '10',
+        type: Number,
+        example: 10,
     })
+    @Transform(({ value = 10 }) => +value)
     @IsInt()
     limit: number = 10;
 
     @ApiProperty({
         description: 'Страница',
-        example: '10',
+        example: 1,
+        type: Number,
     })
+    @Transform(({ value = 10 }) => +value)
     @IsInt()
     page: number = 1;
 }
 
 export class PaginationResponse implements Omit<IPaginationResponse<object>, 'data'> {
     @ApiProperty({
-        description: 'Page',
+        description: 'Страница',
         example: '10',
     })
     page: number;
+
+    @ApiProperty({
+        description: 'Всего страниц',
+        example: '10',
+    })
+    total: number;
 }

@@ -25,6 +25,7 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices();
+  app.init()
 
   console.log(`Users microservice is running`);
 }

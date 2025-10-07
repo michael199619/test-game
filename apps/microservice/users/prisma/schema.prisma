@@ -25,6 +25,8 @@ model User {
 
   historyBalance Balance[]
 
+  createdAt DateTime @default(now()) @map("created_at")
+
   @@map("user")
 }
 
@@ -35,6 +37,8 @@ model Balance {
   value  Float
 
   user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@map("balance")
 }

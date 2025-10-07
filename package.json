@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "start": "nest start client & nest start users",
+    "dev": "nest start client --watch & nest start users --watch",
     "prisma:gen": "ts-node scripts/prisma-runner.ts generate --all",
     "prisma:reset": "ts-node scripts/prisma-runner.ts reset",
     "prisma:migrate": "ts-node scripts/prisma-runner.ts migrate --all",

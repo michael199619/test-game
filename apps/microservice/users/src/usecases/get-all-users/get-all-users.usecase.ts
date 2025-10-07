@@ -1,6 +1,8 @@
 import { GetAllUsersDto, GetAllUsersResponse, IUserController, Usecase } from "@game/common";
+import { Injectable } from "@nestjs/common";
 import { UsersRepository } from "../../db/users/users.repository";
 
+@Injectable()
 export class GetAllUsersUsecase extends Usecase<IUserController['getAllUsers']> {
     constructor(
         private readonly usersRepository: UsersRepository
@@ -9,11 +11,12 @@ export class GetAllUsersUsecase extends Usecase<IUserController['getAllUsers']> 
     }
 
     async handler(dto: GetAllUsersDto): Promise<GetAllUsersResponse> {
-        const users = await this.usersRepository.getAllUsers(dto);
+        const { data, total } = await this.usersRepository.getAllUsers(dto);
 
         return {
-            data: users,
-            page: dto.page
+            data,
+            page: dto.page,
+            total: total
         };
     }
 }

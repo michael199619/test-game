@@ -13,11 +13,16 @@ export class UsersRepository extends Repository {
     }
 
     getUserById(id: string) {
-        return this.prisma.user.findFirst({ select: { id: true, balance: true }, where: { id } })
+        return this.prisma.user.findFirst({ select: { id: true, balance: true }, where: { id } });
     }
 
-    getAllUsers({ limit }: GetAllUsersDto) {
-        return this.prisma.user.findMany({ select: { id: true } })
+    async getAllUsers({ limit, page }: GetAllUsersDto) {
+        const [data, total] = await Promise.all([
+            this.prisma.user.findMany({ select: { id: true }, take: limit, skip: (page - 1) * limit }),
+            this.prisma.user.count(),
+        ]);
+
+        return { data, total }
     }
 
     getHistory(id: string, tx: Prisma.TransactionClient | undefined) {
@@ -48,8 +53,8 @@ export class UsersRepository extends Repository {
             data: {
                 action: dto.action,
                 userId: dto.id,
-                value: dto.value
-                //  ts: dto.ts,
+                value: dto.val
+                //  ts: dto.ts, // name of transaction
             }
         })
     }

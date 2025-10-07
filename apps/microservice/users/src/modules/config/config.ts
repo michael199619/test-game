@@ -4,6 +4,7 @@ import { get } from 'env-var';
 export const appConfig = registerAs('app', () => ({
     port: get('PORT').default('3000').asPortNumber(),
     nodeEnv: get('NODE_ENV').default('development').asString(),
+    seed: get('SEED').default('true').asBool(),
 }));
 
 export const kafkaConfig = registerAs('kafka', () => ({
