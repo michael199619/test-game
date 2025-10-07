@@ -1,0 +1,10 @@
+{
+    "name": "@game/api",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "@nestjs/jwt": "^11.0.0",
+        "@nestjs/swagger": "^11.2.0",
+        "swagger-ui-express": "^5.0.1"
+    }
+}

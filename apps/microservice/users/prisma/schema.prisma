@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl", "darwin", "darwin-arm64", "linux-arm64-openssl-1.1.x"]
+  output        = "../../../../node_modules/prisma_types/users"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("USERS_DB_URL")
+}
+
+enum Action {
+  INCOME
+  EXPENSE
+
+  @@map("action")
+}
+
+model User {
+  id      String @id @default(uuid()) @db.Uuid
+  balance Float
+
+  historyBalance Balance[]
+
+  @@map("user")
+}
+
+model Balance {
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @map("user_id") @db.Uuid
+  action Action @default(INCOME)
+  value  Float
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("balance")
+}
