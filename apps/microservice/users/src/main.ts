@@ -1,4 +1,4 @@
-import { TRASPORT_USER_GROUP } from '@game/common';
+import { ExFilter, TRASPORT_USER_GROUP } from '@game/common';
 import { ConfigType } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
@@ -10,6 +10,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configKafka = app.get<ConfigType<typeof kafkaConfig>>(kafkaConfig.KEY);
+
+  app.useGlobalFilters(new ExFilter())
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,

@@ -1,6 +1,7 @@
-import { AddBalanceForUserDto, AddBalanceForUserResponse, GetAllUsersDto, GetAllUsersResponse, UsersPublisher } from '@game/common';
+import { AddBalanceForUserDto, AddBalanceForUserResponse, GetAllUsersDto, GetAllUsersResponse, GetUserResponse, UsersPublisher } from '@game/common';
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { lastValueFrom } from 'rxjs';
 
 @ApiTags('users')
 @Controller()
@@ -13,32 +14,38 @@ export class UserController {
 
     @Get()
     @ApiResponse({
+        description: 'Получить всех пользователей',
         type: GetAllUsersResponse
     })
-    async getAllUsers(
+    getAllUsers(
         @Query() dto: GetAllUsersDto
     ) {
-        return this.usersPublisher.getAllUsers({
+        return lastValueFrom(this.usersPublisher.getAllUsers({
             ...dto,
             limit: +dto.limit,
             page: +dto.page,
-        })
+        }))
     }
 
     @Get(':id')
-    async getUser(
+    @ApiResponse({
+        description: 'Получить профиль пользователя',
+        type: GetUserResponse
+    })
+    getUser(
         @Param('id') id: string
     ) {
-        return this.usersPublisher.getUser({ id })
+        return lastValueFrom(this.usersPublisher.getUser({ id }))
     }
 
     @Post('change-balance')
     @ApiResponse({
+        description: 'Изменить баланс пользователя',
         type: AddBalanceForUserResponse
     })
-    async changeBalance(
+    changeBalance(
         @Body() dto: AddBalanceForUserDto
     ) {
-        return this.usersPublisher.addBalanceForUser(dto)
+        return lastValueFrom(this.usersPublisher.addBalanceForUser(dto));
     }
 } 

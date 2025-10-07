@@ -15,17 +15,17 @@ export class AppController implements IUserController {
   }
 
   @MessagePattern(UserTopics.GET_USER)
-  getUser(@Payload() data: GetUserDto) {
-    return this.getUserUsecase.excecute(data)
+  async getUser(@Payload() data: GetUserDto) {
+    return await this.getUserUsecase.excecute(data)
   }
 
   @MessagePattern(UserTopics.GET_ALL_USERS)
-  getAllUsers(@Payload() data: GetAllUsersDto) {
-    return this.getAllUsersUsecase.excecute(data)
+  async getAllUsers(@Payload() data: GetAllUsersDto) {
+    return await this.getAllUsersUsecase.excecute(data)
   }
 
   @MessagePattern(UserTopics.ADD_BALANCE_FOR_USER)
-  addBalanceForUser(@Payload() data: AddBalanceForUserDto) {
-    return this.addBalanceForUserUsecase.excecute(data)
+  async addBalanceForUser(@Payload() data: AddBalanceForUserDto) {
+    return await this.addBalanceForUserUsecase.excecute(data)
   }
-}  
+}   

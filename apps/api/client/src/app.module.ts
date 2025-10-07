@@ -11,6 +11,6 @@ import { UserModule } from './sections/user/user.module';
   providers: [{
     provide: APP_PIPE,
     useClass: ValidationPipe,
-  }],
+  }]
 })
 export class AppModule { }

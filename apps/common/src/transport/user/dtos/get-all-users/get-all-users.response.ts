@@ -6,7 +6,7 @@ export class GetAllUsers {
     @ApiProperty({
         description: 'Идентификатор пользователя'
     })
-    id: string
+    id: string;
 }
 
 export class GetAllUsersResponse extends PaginationResponse implements IPaginationResponse<GetAllUsers> {

@@ -1,3 +1,4 @@
+import { ExFilter } from '@game/common';
 import { ConfigType } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -9,6 +10,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = app.get<ConfigType<typeof appConfig>>(appConfig.KEY);
+
+  app.useGlobalFilters(new ExFilter())
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle(SERVICE_ID)
