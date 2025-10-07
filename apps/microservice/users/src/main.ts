@@ -1,5 +1,5 @@
 import { ExFilter, TRASPORT_USER_GROUP } from '@game/common';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
@@ -8,7 +8,9 @@ import { SERVICE_ID } from './constants';
 import { kafkaConfig } from './modules/config/config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const logger = new Logger();
+
+  const app = await NestFactory.create(AppModule, { logger });
 
   const configKafka = app.get<ConfigType<typeof kafkaConfig>>(kafkaConfig.KEY);
 
@@ -36,6 +38,6 @@ async function bootstrap() {
   await app.startAllMicroservices();
   app.init()
 
-  console.log(`Users microservice is running`);
+  logger.log(`Users microservice is running`);
 }
 bootstrap();

@@ -23,7 +23,7 @@ export class PrismaService extends prismaServiceFabric(
       return;
     }
 
-    console.log('users seed');
+    this.logger.log('users seed');
     const now = new Date()
 
     await Promise.all(seed.map(async userSeed => {
@@ -49,6 +49,6 @@ export class PrismaService extends prismaServiceFabric(
       }
     }))
 
-    console.log('users seed is finished')
+    this.logger.log('users seed is finished')
   }
 }
