@@ -25,12 +25,17 @@ export class UsersRepository extends Repository {
         return { data, total }
     }
 
+    getTransaction(transactionId: string, tx: Prisma.TransactionClient | undefined) {
+        return this.getContext(tx).balance.findFirst({ where: { transactionId } })
+    }
+
     getHistory(id: string, tx: Prisma.TransactionClient | undefined) {
         return this.getContext(tx).user.findFirst({
             where: { id },
             select: {
                 historyBalance: {
                     select: {
+                        transactionId: true,
                         action: true,
                         value: true
                     }
@@ -53,8 +58,8 @@ export class UsersRepository extends Repository {
             data: {
                 action: dto.action,
                 userId: dto.id,
-                value: dto.val
-                //  ts: dto.ts, // name of transaction
+                value: dto.val,
+                transactionId: dto.transactionId
             }
         })
     }

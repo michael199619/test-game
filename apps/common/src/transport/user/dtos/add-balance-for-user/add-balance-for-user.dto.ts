@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsInt, IsPositive, IsString, IsUUID, Min } from "class-validator";
+import { randomUUID } from "crypto";
 
 export enum Action {
     INCOME = 'INCOME',
@@ -10,7 +11,7 @@ export class AddBalanceForUserDto {
     @ApiProperty({
         description: 'Идентификатор пользователя',
         type: String,
-        example: '322',
+        example: randomUUID(),
     })
     @IsString()
     @IsUUID()
@@ -36,9 +37,13 @@ export class AddBalanceForUserDto {
     val: number;
 
     @ApiProperty({
-        description: 'транзакция'
+        description: 'Транзакция пополнения (должна быть уникальна)',
+        type: String,
+        required: false,
+        example: randomUUID(),
     })
     @IsString()
-    ts: string;
+    @IsUUID()
+    transactionId: string;
 }
 

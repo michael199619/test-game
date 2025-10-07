@@ -1,11 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsString, IsUUID } from "class-validator";
+import { randomUUID } from "crypto";
 
 export class GetUserDto {
     @ApiProperty({
         description: 'Идентификатор пользователя',
-        example: '123',
+        example: randomUUID(),
     })
     @IsString()
+    @IsUUID()
     id: string
 }

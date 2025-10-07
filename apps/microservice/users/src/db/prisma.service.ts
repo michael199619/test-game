@@ -36,9 +36,9 @@ export class PrismaService extends prismaServiceFabric(
           balance: userSeed.balance,
           createdAt: now
         }
-      });
+      })
 
-      if (user.createdAt === now) {
+      if (+user.createdAt === +now) {
         await this.balance.create({
           data: {
             userId: userSeed.id,

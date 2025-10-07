@@ -1,10 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { ValidateNested } from "class-validator";
+import { randomUUID } from "crypto";
 import { IPaginationResponse, PaginationResponse } from "../../../../utils";
 
 export class GetAllUsers {
     @ApiProperty({
-        description: 'Идентификатор пользователя'
+        description: 'Идентификатор пользователя',
+        example: randomUUID()
     })
     id: string;
 }

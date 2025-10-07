@@ -1,9 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { randomUUID } from "crypto";
 
 export class GetUserResponse {
     @ApiProperty({
         description: 'Идентификатор пользователя',
-        example: '123',
+        example: randomUUID(),
     })
     id: string;
 

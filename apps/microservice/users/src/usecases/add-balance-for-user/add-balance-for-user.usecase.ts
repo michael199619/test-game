@@ -18,6 +18,10 @@ export class AddBalanceForUserUsecase extends Usecase<IUserController['addBalanc
                 throw new NotFoundException('user is not exists');
             }
 
+            if (!!await this.usersRepository.getTransaction(dto.transactionId, tx)) {
+                throw new BadRequestException('transaction have to unique');
+            }
+
             const balance = user.historyBalance.reduce((prev, next) => {
                 return next.action === Action.EXPENSE ? prev - next.value : prev + next.value
             }, dto.action === Action.EXPENSE ? -dto.val : dto.val);

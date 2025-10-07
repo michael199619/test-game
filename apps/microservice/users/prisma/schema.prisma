@@ -31,10 +31,11 @@ model User {
 }
 
 model Balance {
-  id     String @id @default(uuid()) @db.Uuid
-  userId String @map("user_id") @db.Uuid
-  action Action @default(INCOME)
-  value  Float
+  id            String  @id @default(uuid()) @db.Uuid
+  userId        String  @map("user_id") @db.Uuid
+  action        Action  @default(INCOME)
+  value         Float
+  transactionId String? @unique() @map("transaction_id") @db.Uuid
 
   user User @relation(fields: [userId], references: [id])
 
