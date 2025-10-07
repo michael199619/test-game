@@ -6,9 +6,10 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
-    "start": "nest start client & nest start users",
-    "dev": "nest start client --watch & nest start users --watch",
+    "build": "nest build && npm run build:common",
+    "build:common": "cd ./apps/common && npm run build && cd ..",
+    "start": "npm run build:common && start client & nest start users",
+    "dev": "npm run build:common && nest start client --watch & nest start users --watch",
     "prisma:gen": "ts-node scripts/prisma-runner.ts generate --all",
     "prisma:reset": "ts-node scripts/prisma-runner.ts reset",
     "prisma:migrate": "ts-node scripts/prisma-runner.ts migrate --all",

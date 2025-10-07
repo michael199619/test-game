@@ -73,7 +73,7 @@ program
 
 program
     .command(Action.MIGRATE)
-    .requiredOption('-n, --name <name>', 'Имя миграции')
+    .option('-n, --name <name>', 'Имя миграции')
     .option('-a, --all', 'Запустить по всем микросервисам')
     .option(`-s, --service <name>`, 'Запустить для конкретного сервиса')
     .action(handler);
