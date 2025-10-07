@@ -1,4 +1,5 @@
 import { ExFilter } from '@game/common';
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -11,7 +12,13 @@ async function bootstrap() {
 
   const config = app.get<ConfigType<typeof appConfig>>(appConfig.KEY);
 
-  app.useGlobalFilters(new ExFilter())
+  app.useGlobalFilters(new ExFilter());
+
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    whitelist: true,
+    forbidNonWhitelisted: false,
+  }));
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle(SERVICE_ID)

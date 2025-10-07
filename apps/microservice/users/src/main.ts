@@ -1,4 +1,5 @@
 import { ExFilter, TRASPORT_USER_GROUP } from '@game/common';
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
@@ -11,7 +12,13 @@ async function bootstrap() {
 
   const configKafka = app.get<ConfigType<typeof kafkaConfig>>(kafkaConfig.KEY);
 
-  app.useGlobalFilters(new ExFilter())
+  app.useGlobalFilters(new ExFilter());
+
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    whitelist: true,
+    forbidNonWhitelisted: false,
+  }));
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,

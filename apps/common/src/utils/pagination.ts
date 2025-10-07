@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform } from "class-transformer";
-import { IsInt } from "class-validator";
+import { IsInt, IsPositive, Min } from "class-validator";
 
 export type IPaginationDto<T> = T & {
     limit: number
@@ -19,6 +19,8 @@ export class PaginationDto implements IPaginationDto<object> {
     })
     @Transform(({ value = 10 }) => +value)
     @IsInt()
+    @Min(0)
+    @IsPositive()
     limit: number = 10;
 
     @ApiProperty({
@@ -28,6 +30,8 @@ export class PaginationDto implements IPaginationDto<object> {
     })
     @Transform(({ value = 10 }) => +value)
     @IsInt()
+    @Min(0)
+    @IsPositive()
     page: number = 1;
 }
 

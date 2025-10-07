@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsInt, IsNotEmpty, IsString, Min } from "class-validator";
+import { IsEnum, IsInt, IsPositive, IsString, IsUUID, Min } from "class-validator";
 
 export enum Action {
     INCOME = 'INCOME',
@@ -13,7 +13,7 @@ export class AddBalanceForUserDto {
         example: '322',
     })
     @IsString()
-    @IsNotEmpty()
+    @IsUUID()
     id: string;
 
     @ApiProperty({
@@ -32,6 +32,7 @@ export class AddBalanceForUserDto {
     })
     @IsInt()
     @Min(0)
+    @IsPositive()
     val: number;
 
     @ApiProperty({

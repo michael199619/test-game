@@ -1,5 +1,5 @@
 import { AddBalanceForUserDto, AddBalanceForUserResponse, GetAllUsersDto, GetAllUsersResponse, GetUserResponse, UsersPublisher } from '@game/common';
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Query } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { lastValueFrom } from 'rxjs';
 
@@ -8,9 +8,7 @@ import { lastValueFrom } from 'rxjs';
 export class UserController {
     constructor(
         private readonly usersPublisher: UsersPublisher
-    ) {
-
-    }
+    ) { }
 
     @Get()
     @ApiResponse({
@@ -20,11 +18,7 @@ export class UserController {
     getAllUsers(
         @Query() dto: GetAllUsersDto
     ) {
-        return lastValueFrom(this.usersPublisher.getAllUsers({
-            ...dto,
-            limit: +dto.limit,
-            page: +dto.page,
-        }))
+        return lastValueFrom(this.usersPublisher.getAllUsers(dto))
     }
 
     @Get(':id')
@@ -33,7 +27,7 @@ export class UserController {
         type: GetUserResponse
     })
     getUser(
-        @Param('id') id: string
+        @Param('id', ParseUUIDPipe) id: string
     ) {
         return lastValueFrom(this.usersPublisher.getUser({ id }))
     }
